@@ -1,0 +1,57 @@
+services:
+    # API service
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: sm-api
+        restart: always
+        ports:
+            - '4200:4200'
+        depends_on:
+            postgres:
+                condition: service_healthy
+        environment:
+            - NODE_ENV=production
+            - DB_HOST=postgres
+            - DB_PORT=5432
+            - DB_USER=postgres
+            - DB_PASSWORD=postgres
+            - DB_NAME=student_management
+        healthcheck:
+            test:
+                [
+                    'CMD',
+                    'wget',
+                    '--spider',
+                    '-q',
+                    'http://localhost:4200/health'
+                ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 15s
+
+    # Database service
+    postgres:
+        image: postgres:15
+        container_name: sm-postgres
+        restart: always
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: student_management
+        ports:
+            - '5434:5432'
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+            # Mount the migration script
+            - ./src/migrations:/docker-entrypoint-initdb.d
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U postgres']
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+volumes:
+    postgres_data:

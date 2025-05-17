@@ -1,0 +1,55 @@
+{
+	"name": "student-management-server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"dev": "nodemon",
+		"build": "tsc && tsc-alias",
+		"start": "node dist/server.js",
+		"db:start": "docker-compose up -d postgres",
+		"db:stop": "docker-compose down",
+		"db:migrate": "node src/migrations/run-migrations.js",
+		"db:reset": "docker-compose down -v && docker-compose up -d postgres && sleep 5 && npm run db:migrate",
+		"db:test": "ts-node -r tsconfig-paths/register src/test-db-connection.ts",
+		"db:init": "chmod +x ./scripts/db-init.sh && ./scripts/db-init.sh",
+		"deploy": "chmod +x ./scripts/deploy.sh && ./scripts/deploy.sh"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/GamalSamadov/sm-server.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/GamalSamadov/sm-server/issues"
+	},
+	"homepage": "https://github.com/GamalSamadov/sm-server#readme",
+	"dependencies": {
+		"class-validator": "^0.14.2",
+		"cors": "^2.8.5",
+		"dotenv": "^16.5.0",
+		"express": "^5.1.0",
+		"express-validator": "^7.2.1",
+		"nodemon": "^3.1.10",
+		"pg": "^8.16.0",
+		"tsconfig-paths": "^4.2.0",
+		"uuid": "^11.1.0"
+	},
+	"devDependencies": {
+		"@trivago/prettier-plugin-sort-imports": "^5.2.2",
+		"@types/cors": "^2.8.18",
+		"@types/express": "^5.0.2",
+		"@types/node": "^22.15.18",
+		"@types/pg": "^8.15.2",
+		"@typescript-eslint/eslint-plugin": "^8.32.1",
+		"@typescript-eslint/parser": "^8.32.1",
+		"eslint-config-prettier": "^10.1.5",
+		"eslint-plugin-prettier": "^5.4.0",
+		"prettier": "^3.5.3",
+		"ts-node": "^10.9.2",
+		"tsc-alias": "^1.8.16",
+		"typescript": "^5.8.3"
+	}
+}
