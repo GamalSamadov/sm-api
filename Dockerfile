@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy package files for better caching
 COPY package*.json ./
 
-# Install dependencies with specific cache settings
-RUN npm ci --no-audit --no-fund
+# Install dependencies with npm install since we don't have package-lock.json
+RUN npm install
 
 # Copy source code
 COPY . .
@@ -34,8 +34,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install production dependencies only with clean cache for smaller image
-RUN npm ci --only=production --no-audit --no-fund && \
+# Install production dependencies only with npm install
+RUN npm install --only=production && \
     npm cache clean --force
 
 # Copy built application from the builder stage
