@@ -153,47 +153,6 @@ Password: postgres
 Database: student_management
 ```
 
-## 🚀 Deployment
-
-This Student Management API uses Docker for deployment, ensuring consistent environments across development and production.
-
-### Docker Deployment
-
-```bash
-# Build the application and deploy with Docker
-npm run deploy
-```
-
-This script will:
-
-- Build the TypeScript application
-- Start the PostgreSQL and API containers
-- Verify the deployment is working
-
-### 🐋 Docker Deployment Options
-
-| Environment     | Configuration File | Database Host  | Command          |
-| --------------- | ------------------ | -------------- | ---------------- |
-| **Development** | `.env`             | localhost:5434 | `npm run dev`    |
-| **Production**  | `.env.production`  | postgres:5432  | `npm run deploy` |
-
-### 🔄 Docker Deployment Lifecycle
-
-```
-┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│                 │     │                  │     │                 │
-│  Docker Build   │────►│  Docker Compose  │────►│  API Container  │
-│                 │     │                  │     │                 │
-└─────────────────┘     └──────────────────┘     └─────────────────┘
-                                │                        │
-                                ▼                        │
-                         ┌──────────────────┐           │
-                         │                  │           │
-                         │  DB Container    │◄──────────┘
-                         │                  │
-                         └──────────────────┘
-```
-
 ### 🐋 Deployment Methods
 
 The simplest way to deploy with Docker:

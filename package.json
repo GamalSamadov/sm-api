@@ -2,7 +2,10 @@
 	"name": "student-management-server",
 	"version": "1.0.0",
 	"description": "",
-	"main": "server.js",
+	"main": "dist/server.js",
+	"engines": {
+		"node": ">=18.x"
+	},
 	"scripts": {
 		"dev": "nodemon",
 		"build": "tsc && tsc-alias",
@@ -11,11 +14,8 @@
 		"db:stop": "docker-compose down",
 		"db:migrate": "node src/migrations/run-migrations.js",
 		"db:reset": "docker-compose down -v && docker-compose up -d postgres && sleep 5 && npm run db:migrate",
-		"db:test": "ts-node -r tsconfig-paths/register src/test-db-connection.ts",
-		"db:init": "chmod +x ./scripts/db-init.sh && ./scripts/db-init.sh",
-		"deploy": "chmod +x ./scripts/deploy.sh && ./scripts/deploy.sh",
-		"deploy:gcloud": "chmod +x ./scripts/deploy-gcloud.sh && ./scripts/deploy-gcloud.sh",
-		"prepare-npm": "npm install --package-lock-only"
+		"db:test": "ts-node -r tsconfig-paths/register src/db/test-db-connection.ts",
+		"db:init": "chmod +x ./scripts/db-init.sh && ./scripts/db-init.sh"
 	},
 	"repository": {
 		"type": "git",

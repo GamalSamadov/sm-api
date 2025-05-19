@@ -1,8 +1,7 @@
 // Test script to verify the database connection
+import { DataBaseConnection } from '.'
 import * as dotenv from 'dotenv'
 import { Pool } from 'pg'
-
-import { DataBaseConnection } from './db'
 
 // Load environment variables from the appropriate .env file based on NODE_ENV
 if (process.env.NODE_ENV === 'production') {

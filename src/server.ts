@@ -57,10 +57,12 @@ try {
 	console.error('Failed to initialize database connection:', error)
 }
 
-// Start the server
-app.listen(port, () => {
-	console.log(`Server is running on http://localhost:${port}`)
-})
+// Start the server only if not running on Vercel (in production)
+if (process.env.NODE_ENV !== 'production') {
+	app.listen(port, () => {
+		console.log(`Server is running on http://localhost:${port}`)
+	})
+}
 
-// Export the Express app for testing purposes
+// Export the Express app for testing purposes and for Vercel
 export default app

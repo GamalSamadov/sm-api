@@ -19,7 +19,8 @@ const config = {
 	host: process.env.DB_HOST || 'localhost',
 	database: process.env.DB_NAME || 'student_management',
 	password: process.env.DB_PASSWORD || 'postgres',
-	port: parseInt(process.env.DB_PORT) || 5434 // Updated to match our Docker port
+	port: parseInt(process.env.DB_PORT) || 5434,
+	ssl: process.env.DB_SSL === 'require' ? { rejectUnauthorized: true } : false
 }
 
 async function runMigrations() {

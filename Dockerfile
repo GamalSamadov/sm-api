@@ -23,41 +23,38 @@ LABEL maintainer="Gamal Samadov"
 LABEL description="Student Management System API"
 LABEL version="1.0.0"
 
-# Create app directory and use non-root user for security
-RUN mkdir -p /app && \
+# Create necessary directories and install required packages
+RUN apk add --no-cache wget && \
+    mkdir -p /app /etc/ssl/certs && \
     addgroup -S appgroup && \
     adduser -S appuser -G appgroup && \
-    chown -R appuser:appgroup /app
+    chown -R appuser:appgroup /app /etc/ssl/certs
 
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
-# Install production dependencies only with npm install
+# Install production dependencies and clean cache
 RUN npm install --only=production && \
     npm cache clean --force
 
 # Copy built application from the builder stage
 COPY --from=builder /app/dist ./dist
 
+# Set environment variables
+ENV NODE_ENV=production \
+    PORT=8080
+
 # Switch to non-root user for better security
 USER appuser
 
 # Expose API port
-EXPOSE 4200
+EXPOSE ${PORT}
 
-# Set environment variables
-ENV NODE_ENV=production
-ENV DB_HOST=postgres
-ENV DB_PORT=5432
-ENV DB_USER=postgres
-ENV DB_PASSWORD=postgres
-ENV DB_NAME=student_management
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:${PORT}/api/health || exit 1
 
-# Add health check
-HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-  CMD wget --quiet --spider http://localhost:4200/health || exit 1
-
-# Start the application with proper signal handling
+# Start the application
 CMD ["node", "dist/server.js"]
