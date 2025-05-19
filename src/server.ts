@@ -57,8 +57,8 @@ try {
 	console.error('Failed to initialize database connection:', error)
 }
 
-// Start the server only if not running on Vercel (in production)
-if (process.env.NODE_ENV !== 'production') {
+// Start the server only if not running on Vercel
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
 	app.listen(port, () => {
 		console.log(`Server is running on http://localhost:${port}`)
 	})
