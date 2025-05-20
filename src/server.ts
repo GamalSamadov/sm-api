@@ -1,3 +1,4 @@
+import cors from 'cors'
 import * as dotenv from 'dotenv'
 import express, { Request, Response } from 'express'
 import { Pool } from 'pg'
@@ -18,6 +19,15 @@ const port = process.env.PORT || 4200
 
 // Initialize Express middleware
 app.use(express.json())
+
+// Configure CORS middleware
+app.use(
+	cors({
+		origin: ['http://localhost:3000', 'https://your-production-domain.com'], // Add your frontend URLs
+		methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+		allowedHeaders: ['Content-Type', 'Authorization']
+	})
+)
 
 // Basic health check endpoint
 app.get('/health', (_: Request, res: Response) => {
