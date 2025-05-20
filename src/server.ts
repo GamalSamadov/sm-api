@@ -23,7 +23,7 @@ app.use(express.json())
 // Configure CORS middleware
 app.use(
 	cors({
-		origin: ['http://localhost:3000', 'https://your-production-domain.com'], // Add your frontend URLs
+		origin: ['http://localhost:3000', 'https://sm-client-five.vercel.app'], // Add your frontend URLs
 		methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 		allowedHeaders: ['Content-Type', 'Authorization']
 	})
