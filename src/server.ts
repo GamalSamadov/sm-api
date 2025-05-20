@@ -1,4 +1,3 @@
-import cors from 'cors'
 import * as dotenv from 'dotenv'
 import express, { Request, Response } from 'express'
 import { Pool } from 'pg'
@@ -19,7 +18,6 @@ const port = process.env.PORT || 4200
 
 // Initialize Express middleware
 app.use(express.json())
-app.use(cors())
 
 // Basic health check endpoint
 app.get('/health', (_: Request, res: Response) => {
